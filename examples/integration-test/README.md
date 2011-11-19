@@ -9,5 +9,5 @@ the rebar `compile` command having run.
 ## Running the example
 
     $ rebar get-deps compile
-    $ rebar integration-test
- 
+    $ rebar skip_deps=true integration-test
+
