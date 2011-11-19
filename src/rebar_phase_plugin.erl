@@ -22,6 +22,7 @@
 -module(rebar_phase_plugin).
 -export([preprocess/2, execute_command/4]).
 
+-spec preprocess(rebar_config:config(), string()) -> {'ok', list()}.
 preprocess(Config, _) ->
     case is_basedir() of
         true ->
@@ -37,6 +38,8 @@ preprocess(Config, _) ->
     end,
     {ok, []}.
 
+-spec execute_command(atom(), string(),
+                      rebar_config:config(), string()) -> 'ok' | {error, any()}.
 execute_command(Command, Root, Config, AppFile) ->
     case [ Err || Err <- lists:map(
         fun({command, _, PhaseDepends, PhaseCommands}) ->
