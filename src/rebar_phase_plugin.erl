@@ -38,18 +38,27 @@ preprocess(Config, _) ->
     {ok, []}.
 
 execute_command(Command, Root, Config, AppFile) ->
-    lists:map(fun({command, _, PhaseDepends, PhaseCommands}) ->
-                    case PhaseDepends of
-                        [] ->
-                            ok;
-                        Deps ->
-                            [ execute_command(C, Root,
-                                            Config, AppFile) || C <- Deps ]
-                    end,
-                    rebar_core:process_commands(PhaseCommands, Config);
-                 (C) when is_atom(C) ->
-                    rebar_core:process_commands([C], Config)
-              end, lookup_phase_config(Command, Config)).
+    case [ Err || Err <- lists:map(
+        fun({command, _, PhaseDepends, PhaseCommands}) ->
+            case PhaseDepends of
+                [] ->
+                    ok;
+                Deps when is_list(Deps) ->
+                    io:format("Trying to process ~p~n", [Deps]),
+                    [ execute_command(C, Root,
+                                    Config, AppFile) || C <- Deps ];
+                Dep when is_atom(Dep) ->
+                    execute_command(Dep, Root, Config, AppFile)
+            end,
+            rebar_core:process_commands(PhaseCommands, Config);
+         (C) when is_atom(C) ->
+             rebar_core:process_commands([C], Config)
+        end, lookup_phase_config(Command, Config)), Err /= ok ] of
+        [] ->
+            ok;
+        Other ->
+            {error, Other}
+    end.
 
 %%
 %% Internal API
