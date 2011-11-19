@@ -1,0 +1,6 @@
+{application, rebar_phase_plugin,
+ [
+  {description, ""},
+  {vsn, "0.0.1"},
+  {applications, [kernel,stdlib]}
+ ]}.
