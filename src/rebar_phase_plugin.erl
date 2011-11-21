@@ -30,8 +30,8 @@ preprocess(Config, _) ->
                 [] ->
                     ok;
                 Cmds ->
-                    rebar_cmd_builder:generate_handler(basename(),
-                                                        Cmds, ?MODULE)
+                    rebar_plugin_manager:generate_handler(basename(),
+                                                            Cmds, ?MODULE)
             end;
         false ->
             ok
