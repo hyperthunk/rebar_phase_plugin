@@ -10,7 +10,7 @@ on a per-project basis, or have your phases loaded from a specific dependency.
 The latter case allows you to distribute your lifecycle configuration as a
 separate library (containing configuration only!) and users can install this
 into `$ERL_LIBS` (recommended) or `code:lib_dir` (not so much), or you can have
-it pulled down as via *deps* in all your projects and reference it that way.
+it pulled down via *deps* in all your projects and reference it that way.
 
 ## Simple example
 

@@ -31,7 +31,7 @@ preprocess(Config, _) ->
                     ok;
                 Cmds ->
                     rebar_plugin_manager:generate_handler(basename(),
-                                                            Cmds, ?MODULE)
+                                                          Cmds, ?MODULE)
             end;
         false ->
             ok
@@ -73,8 +73,6 @@ lookup_phase_config(Command, Config) ->
 
 commands(Config) ->
     case load_phases(Config) of
-        [] ->
-            [];
         Phases when is_list(Phases) ->
             [ generate_command(Phase) || Phase <- Phases ];
         LifecycleDefinition when is_atom(LifecycleDefinition) ->
