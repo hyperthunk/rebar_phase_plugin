@@ -80,7 +80,7 @@ commands(Config) ->
             %% TODO: have this set up to work
             AppPath = case code:lib_dir(LifecycleDefinition) of
                 {error, _} ->
-                    filename:join(deps_dir(), atom_to_list(LifecycleDefinition));
+                    filename:join(deps_dir(Config), atom_to_list(LifecycleDefinition));
                 P when is_list(P) ->
                     P
             end,
@@ -112,8 +112,9 @@ generate_command({PhaseName, PhaseCommands}) ->
 generate_command({PhaseName, PhaseDepends, PhaseCommands}) ->
     {command, PhaseName, PhaseDepends, PhaseCommands}.
 
-deps_dir() ->
-    rebar_config:get_global(deps_dir, rebar_config:get_local(deps_dir, "deps")).
+deps_dir(Config) ->
+    rebar_config:get_global(deps_dir,
+        rebar_config:get_local(Config, deps_dir, "deps")).
 
 basename() ->
     filename:basename(basedir()).
